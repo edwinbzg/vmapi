@@ -7,7 +7,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.get('/setLayer', (req, res) => {
-    let { clientId, fileName } = req.body;
+    let { clientId, fileName } = req.query;
     exec(`mkdir -p /usr/share/geoserver/data_dir/client_sources/${clientId}/ && gsutil cp gs://geoviz/clients/${clientId}/geojson/${fileName} /usr/share/geoserver/data_dir/client_sources/${clientId}/`, (error, stdout, stderr) => {
         if (error) {
             console.error(`exec error: ${error}`);

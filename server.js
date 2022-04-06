@@ -15,7 +15,7 @@ app.get('/setLayer', (req, res) => {
     exec(`mkdir -p /usr/share/geoserver/data_dir/client_sources/${clientId}/ && gsutil cp gs://geoviz/clients/${clientId}/geojson/${fileName} /usr/share/geoserver/data_dir/client_sources/${clientId}/`, execOutput);
     // Convert to GeoPackage
     exec(`ogr2ogr -f GPKG ${name}.gpkg /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName} -lco GEOMETRY_NAME=geom -lco OVERWRITE=YES -a_srs 'EPSG:4326'`, execOutput)
-    console.log(`ogr2ogr -f GPKG ${name}.gpkg /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName} -lco GEOMETRY_NAME=geom -lco OVERWRITE=YES -a_srs 'EPSG:4326'`)
+    // console.log(`ogr2ogr -f GPKG ${name}.gpkg /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName} -lco GEOMETRY_NAME=geom -lco OVERWRITE=YES -a_srs 'EPSG:4326'`)
     // Create datastore
     axios.post('http://localhost:8080/geoserver/rest/workspaces/clients/datastores', {
         "dataStore": {
@@ -38,16 +38,17 @@ app.get('/setLayer', (req, res) => {
             res.send(error)
         })
 
+        
+    function execOutput(error, stdout, stderr) {
+        if (error) {
+            console.error(`exec error: ${error}`);
+            res.send('Error');
+        }
+    }
 })
 
 
-function execOutput(error, stdout, stderr) {
-    if (error) {
-        console.error(`exec error: ${error}`);
-        res.send('Error');
-    }
-    // res.send('Success');
-}
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })

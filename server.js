@@ -1,5 +1,5 @@
 const express = require('express')
-const { exec, execSync } = require('child_process');
+const { exec } = require('child_process');
 const axios = require('axios')
 const app = express()
 const port = 3000
@@ -141,7 +141,7 @@ app.get('/setGeoJSONLayer', async (req, res) => {
             console.log(stdout);
             res.json(false)
         }
-    })
+    });
 })
 
 app.listen(port, () => {

@@ -31,9 +31,9 @@ app.get('/setLayer', (req, res) => {
             }
         }
     }, function (error, response, body) {
-        console.log(error);
+        // console.log(error);
         console.log(response);
-        console.log(body);
+        // console.log(body);
         res.json('Se ha actualizado la configuración correctamente.');
     });
 

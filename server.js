@@ -151,7 +151,7 @@ app.get('/setLayer', async (req, res) => {
                                         method: 'PUT',
                                         url: `http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}/featuretypes/${name}?recalculate=nativebbox,latlonbbox`,
                                         headers: { 'Content-Type': 'application/json; charset=utf-8' },
-                                        data: feature.featureType
+                                        data: feature
                                     })
                                     console.log(resp2);
                                     res.sendStatus(resp2.status);

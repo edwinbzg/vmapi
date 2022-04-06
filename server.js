@@ -39,6 +39,14 @@ app.get('/setLayer', (req, res) => {
 
 })
 
+
+function execOutput(error, stdout, stderr) {
+    if (error) {
+        console.error(`exec error: ${error}`);
+        res.send('Error');
+    }
+    // res.send('Success');
+}
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })

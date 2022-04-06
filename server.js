@@ -51,7 +51,7 @@ app.get('/setLayer', async (req, res) => {
                             //     }
                             // })
                             // Create layer
-                            axios.post(`http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}/featuretypes?recalculate=nativebbox,latlonbbox`,
+                            axios.post(`http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}/featuretypes`,
                                 {
                                     "featureType": {
                                         "name": name,
@@ -108,7 +108,7 @@ app.get('/setLayer', async (req, res) => {
                                                     "minOccurs": 0,
                                                     "maxOccurs": 1,
                                                     "nillable": true,
-                                       
+
                                                 },
                                                 {
                                                     "name": "stroke",
@@ -164,7 +164,11 @@ app.get('/setLayer', async (req, res) => {
                                     }
                                 }).then(async (resp2) => {
                                     // Calculate feature layers
-                                    await axios.put(`http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}/featuretypes/${name}?recalculate=nativebbox,latlonbbox`)
+                                    await axios.put({
+                                            method: 'PUT',
+                                            url: `http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}/featuretypes/${name}.json?recalculate=nativebbox,latlonbbox`,
+                                            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+                                        })
                                     console.log(resp2);
                                     res.sendStatus(resp2.status);
 

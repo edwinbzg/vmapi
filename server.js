@@ -140,7 +140,7 @@ app.get('/setGeoJSONLayer', async (req, res) => {
                 }
             });
         } else {
-            console.log(e);
+            console.log(error);
             res.json(false)
         }
     });

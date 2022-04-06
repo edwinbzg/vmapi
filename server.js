@@ -166,7 +166,7 @@ app.get('/setLayer', async (req, res) => {
                                     // Calculate feature layers
                                     await axios({
                                             method: 'PUT',
-                                            url: `http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}/featuretypes/${name}.json?recalculate=nativebbox,latlonbbox`,
+                                            url: `http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}/featuretypes/${name}?recalculate=nativebbox,latlonbbox`,
                                             headers: { 'Content-Type': 'application/json; charset=utf-8' }
                                         })
                                     console.log(resp2);

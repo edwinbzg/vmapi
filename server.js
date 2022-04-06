@@ -12,9 +12,14 @@ app.get('/setLayer', (req, res) => {
     const name = fileName.split('.').slice(0, -1).join('.')
 
     // Download GeoJSON
-    exec(`mkdir -p /usr/share/geoserver/data_dir/client_sources/${clientId}/ && gsutil cp gs://geoviz/clients/${clientId}/geojson/${fileName} /usr/share/geoserver/data_dir/client_sources/${clientId}/`, execOutput);
+    await exec.__promisify__(`mkdir -p /usr/share/geoserver/data_dir/client_sources/${clientId}/ && gsutil cp gs://geoviz/clients/${clientId}/geojson/${fileName} /usr/share/geoserver/data_dir/client_sources/${clientId}/`).catch(e => {
+        console.log(e);
+    });
+
     // Convert to GeoPackage
-    exec(`ogr2ogr -f GPKG ${name}.gpkg /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName} -lco GEOMETRY_NAME=geom -lco OVERWRITE=YES -a_srs 'EPSG:4326'`, execOutput)
+    await exec.__promisify__(`ogr2ogr -f GPKG ${name}.gpkg /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName} -lco GEOMETRY_NAME=geom -lco OVERWRITE=YES -a_srs 'EPSG:4326'`).catch(e => {
+        console.log(e);
+    });
     // console.log(`ogr2ogr -f GPKG ${name}.gpkg /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName} -lco GEOMETRY_NAME=geom -lco OVERWRITE=YES -a_srs 'EPSG:4326'`)
     // Create datastore
     // axios.post('http://localhost:8080/geoserver/rest/workspaces/clients/datastores', {
@@ -36,16 +41,7 @@ app.get('/setLayer', (req, res) => {
     //         console.error(error)
     //         res.send(error)
     //     })
-
-
-    function execOutput(error, stdout, stderr) {
-        if (error) {
-            console.error(`exec error: ${error}`);
-            res.send('Error');
-        }
-        console.log(stderr);
-        res.send(stdout);
-    }
+    res.send('end');
 })
 
 

@@ -119,7 +119,8 @@ app.get('/setLayer', async (req, res) => {
                                             res.send(error)
                                         });
                                 } else {
-                                    console.log('error')
+                                    console.log(stderr)
+                                    res.send('error');
                                 }
                             })
                         } else {

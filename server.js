@@ -43,6 +43,8 @@ app.get('/setLayer', (req, res) => {
             console.error(`exec error: ${error}`);
             res.send('Error');
         }
+        console.log(stderr);
+        res.send(stdout);
     }
 })
 

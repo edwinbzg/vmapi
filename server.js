@@ -24,7 +24,7 @@ app.get('/setGeoJSONLayer', async (req, res) => {
                             "name": name,
                             "connectionParameters": {
                                 "entry": [
-                                    { "@key": "database", "$": `file:client_sources/2/${name}.gpkg` },
+                                    { "@key": "database", "$": `file:client_sources/${clientId}/${name}.gpkg` },
                                     { "@key": "dbtype", "$": "geopkg" }
                                 ]
                             }

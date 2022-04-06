@@ -32,135 +32,96 @@ app.get('/setLayer', async (req, res) => {
                     }).then(resp => {
                         console.log(`statusCode: ${resp.status}`)
                         if (resp.status == 201) {
-                            // Create layer
-                            var feature = {
-                                "featureType": {
-                                    "name": name,
-                                    "nativeName": name,
-                                    "namespace": {
-                                        "name": "clients",
-                                        "href": "http://localhost:8080/geoserver/rest/namespaces/clients.json"
-                                    },
-                                    "title": name,
-                                    "keywords": {
-                                        "string": [
-                                            "features",
-                                            name
-                                        ]
-                                    },
-                                    "nativeCRS": "GEOGCS[\"WGS 84\", \n  DATUM[\"World Geodetic System 1984\", \n    SPHEROID[\"WGS 84\", 6378137.0, 298.257223563, AUTHORITY[\"EPSG\",\"7030\"]], \n    AUTHORITY[\"EPSG\",\"6326\"]], \n  PRIMEM[\"Greenwich\", 0.0, AUTHORITY[\"EPSG\",\"8901\"]], \n  UNIT[\"degree\", 0.017453292519943295], \n  AXIS[\"Geodetic longitude\", EAST], \n  AXIS[\"Geodetic latitude\", NORTH], \n  AUTHORITY[\"EPSG\",\"4326\"]]",
-                                    "srs": "EPSG:4326",
-                                    "nativeBoundingBox": {
-                                        "minx": 0,
-                                        "maxx": 0,
-                                        "miny": 0,
-                                        "maxy": 0,
-                                        "crs": "EPSG:4326"
-                                    },
-                                    "latLonBoundingBox": {
-                                        "minx": 0,
-                                        "maxx": 0,
-                                        "miny": 0,
-                                        "maxy": 0,
-                                        "crs": "EPSG:4326"
-                                    },
-                                    "projectionPolicy": "FORCE_DECLARED",
-                                    "enabled": true,
-                                    "store": {
-                                        "@class": "dataStore",
-                                        "name": `clients:${name}`,
-                                        "href": `http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}.json`
-                                    },
-                                    "serviceConfiguration": false,
-                                    "simpleConversionEnabled": false,
-                                    "internationalTitle": "",
-                                    "internationalAbstract": "",
-                                    "maxFeatures": 0,
-                                    "numDecimals": 0,
-                                    "padWithZeros": false,
-                                    "forcedDecimal": false,
-                                    "overridingServiceSRS": false,
-                                    "skipNumberMatched": false,
-                                    "circularArcPresent": false,
-                                    "attributes": {
-                                        "attribute": [
-                                            {
-                                                "name": "geom",
+                            // Get Columns
+                            exec(`ogrinfo ${name}.gpkg -sql "SELECT json_group_array(json_object('cid', cid,'name', name,'type', type,'dflt_value', dflt_value,'pk', pk)) AS json_result FROM (SELECT * FROM pragma_table_info('${name}'))"`, (error, stdout, stderr) => {
+                                if (!error) {
+                                    var columns = JSON.parse(stdout.split('json_result (String) = ')[1]);
+                                    var attributes = [];
+                                    columns.forEach((item, i) => {
+                                        if (i > 0) {
+                                            attributes.push({
+                                                "name": item.name,
                                                 "minOccurs": 0,
                                                 "maxOccurs": 1,
                                                 "nillable": true,
-
+                                            });
+                                        }
+                                    });
+                                    // Create layer
+                                    var feature = {
+                                        "featureType": {
+                                            "name": name,
+                                            "nativeName": name,
+                                            "namespace": {
+                                                "name": "clients",
+                                                "href": "http://localhost:8080/geoserver/rest/namespaces/clients.json"
                                             },
-                                            {
-                                                "name": "stroke",
-                                                "minOccurs": 0,
-                                                "maxOccurs": 1,
-                                                "nillable": true,
-                                                // "binding": "java.lang.String"
+                                            "title": name,
+                                            "keywords": {
+                                                "string": [
+                                                    "features",
+                                                    name
+                                                ]
                                             },
-                                            {
-                                                "name": "stroke-width",
-                                                "minOccurs": 0,
-                                                "maxOccurs": 1,
-                                                "nillable": true,
-                                                // "binding": "java.lang.Integer"
+                                            "nativeCRS": "GEOGCS[\"WGS 84\", \n  DATUM[\"World Geodetic System 1984\", \n    SPHEROID[\"WGS 84\", 6378137.0, 298.257223563, AUTHORITY[\"EPSG\",\"7030\"]], \n    AUTHORITY[\"EPSG\",\"6326\"]], \n  PRIMEM[\"Greenwich\", 0.0, AUTHORITY[\"EPSG\",\"8901\"]], \n  UNIT[\"degree\", 0.017453292519943295], \n  AXIS[\"Geodetic longitude\", EAST], \n  AXIS[\"Geodetic latitude\", NORTH], \n  AUTHORITY[\"EPSG\",\"4326\"]]",
+                                            "srs": "EPSG:4326",
+                                            "nativeBoundingBox": {
+                                                "minx": 0,
+                                                "maxx": 0,
+                                                "miny": 0,
+                                                "maxy": 0,
+                                                "crs": "EPSG:4326"
                                             },
-                                            {
-                                                "name": "stroke-opacity",
-                                                "minOccurs": 0,
-                                                "maxOccurs": 1,
-                                                "nillable": true,
-                                                // "binding": "java.lang.Integer"
+                                            "latLonBoundingBox": {
+                                                "minx": 0,
+                                                "maxx": 0,
+                                                "miny": 0,
+                                                "maxy": 0,
+                                                "crs": "EPSG:4326"
                                             },
-                                            {
-                                                "name": "fill",
-                                                "minOccurs": 0,
-                                                "maxOccurs": 1,
-                                                "nillable": true,
-                                                // "binding": "java.lang.String"
+                                            "projectionPolicy": "FORCE_DECLARED",
+                                            "enabled": true,
+                                            "store": {
+                                                "@class": "dataStore",
+                                                "name": `clients:${name}`,
+                                                "href": `http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}.json`
                                             },
-                                            {
-                                                "name": "fill-opacity",
-                                                "minOccurs": 0,
-                                                "maxOccurs": 1,
-                                                "nillable": true,
-                                                // "binding": "java.lang.Double"
-                                            },
-                                            {
-                                                "name": "Name",
-                                                "minOccurs": 0,
-                                                "maxOccurs": 1,
-                                                "nillable": true,
-                                                // "binding": "java.lang.String"
-                                            },
-                                            {
-                                                "name": "description",
-                                                "minOccurs": 0,
-                                                "maxOccurs": 1,
-                                                "nillable": true,
-                                                // "binding": "java.lang.String"
+                                            "serviceConfiguration": false,
+                                            "simpleConversionEnabled": false,
+                                            "internationalTitle": "",
+                                            "internationalAbstract": "",
+                                            "maxFeatures": 0,
+                                            "numDecimals": 0,
+                                            "padWithZeros": false,
+                                            "forcedDecimal": false,
+                                            "overridingServiceSRS": false,
+                                            "skipNumberMatched": false,
+                                            "circularArcPresent": false,
+                                            "attributes": {
+                                                "attribute": attributes
                                             }
-                                        ]
-                                    }
+                                        }
+                                    };
+                                    axios.post(`http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}/featuretypes`,
+                                        feature).then(async (resp2) => {
+                                            // Calculate feature layers
+                                            await axios({
+                                                method: 'PUT',
+                                                url: `http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}/featuretypes/${name}?recalculate=nativebbox,latlonbbox`,
+                                                headers: { 'Content-Type': 'application/json; charset=utf-8' },
+                                                data: feature
+                                            })
+                                            console.log(resp2);
+                                            res.sendStatus(resp2.status);
+
+                                        }).catch(error => {
+                                            console.error(error)
+                                            res.send(error)
+                                        });
+                                } else {
+                                    console.log('error')
                                 }
-                            };
-                            axios.post(`http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}/featuretypes`,
-                                feature).then(async (resp2) => {
-                                    // Calculate feature layers
-                                    await axios({
-                                        method: 'PUT',
-                                        url: `http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}/featuretypes/${name}?recalculate=nativebbox,latlonbbox`,
-                                        headers: { 'Content-Type': 'application/json; charset=utf-8' },
-                                        data: feature
-                                    })
-                                    console.log(resp2);
-                                    res.sendStatus(resp2.status);
-
-                                }).catch(error => {
-                                    console.error(error)
-                                    res.send(error)
-                                });
-
+                            })
                         } else {
                             res.sendStatus(resp.status)
                         }

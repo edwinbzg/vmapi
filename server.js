@@ -30,8 +30,122 @@ app.get('/setLayer', async (req, res) => {
                         }
                     }).then(resp => {
                         console.log(`statusCode: ${resp.status}`)
-                        // console.log(resp)
-                        res.send(resp.status)
+                        if (resp.status == 201) {
+                            // Create layer
+                            axios.post(`http://localhost:8080/geoserver/rest//workspaces/clients/datastores/${name}/featuretypes?recalculate=nativebbox,latlonbbox`,
+                                {
+                                    "name": name,
+                                    "nativeName": name,
+                                    "namespace": {
+                                        "name": "clients",
+                                        "href": "http://localhost:8080/geoserver/rest/namespaces/clients.json"
+                                    },
+                                    "title": name,
+                                    "abstract": "",
+                                    "keywords": {
+                                        "string": [
+                                            name,
+                                        ]
+                                    },
+                                    "metadataLinks": {
+                                        "metadataLink": []
+                                    },
+                                    "dataLinks": {
+                                        "org.geoserver.catalog.impl.DataLinkInfoImpl": []
+                                    },
+                                    "nativeCRS": "GEOGCS[\"WGS 84\", \n  DATUM[\"World Geodetic System 1984\", \n    SPHEROID[\"WGS 84\", 6378137.0, 298.257223563, AUTHORITY[\"EPSG\",\"7030\"]], \n    AUTHORITY[\"EPSG\",\"6326\"]], \n  PRIMEM[\"Greenwich\", 0.0, AUTHORITY[\"EPSG\",\"8901\"]], \n  UNIT[\"degree\", 0.017453292519943295], \n  AXIS[\"Geodetic longitude\", EAST], \n  AXIS[\"Geodetic latitude\", NORTH], \n  AUTHORITY[\"EPSG\",\"4326\"]]",
+                                    "srs": "EPSG:4326",
+                                    "nativeBoundingBox": {
+                                        "minx": 0,
+                                        "maxx": 0,
+                                        "miny": 0,
+                                        "maxy": 0,
+                                        "crs": "EPSG:4326"
+                                    },
+                                    "latLonBoundingBox": {
+                                        "minx": 0,
+                                        "maxx": 0,
+                                        "miny": 0,
+                                        "maxy": 0,
+                                        "crs": "EPSG:4326"
+                                    },
+                                    "projectionPolicy": "REPROJECT_TO_DECLARED",
+                                    "enabled": true,
+                                    "metadata": {
+                                        "entry": [
+                                            {
+                                                "@key": "kml.regionateStrategy",
+                                                "$": "external-sorting"
+                                            },
+                                            {
+                                                "@key": "kml.regionateFeatureLimit",
+                                                "$": "15"
+                                            },
+                                            {
+                                                "@key": "cacheAgeMax",
+                                                "$": "3000"
+                                            },
+                                            {
+                                                "@key": "cachingEnabled",
+                                                "$": "true"
+                                            },
+                                            {
+                                                "@key": "kml.regionateAttribute",
+                                                "$": "NAME"
+                                            },
+                                            {
+                                                "@key": "indexingEnabled",
+                                                "$": "false"
+                                            },
+                                            {
+                                                "@key": "dirName",
+                                                "$": "DS_poi_poi"
+                                            }
+                                        ]
+                                    },
+                                    "store": {
+                                        "@class": "dataStore",
+                                        "name": "clients:" + name,
+                                        "href": "http://localhost:8080/geoserver/rest/workspaces/clients/datastores/" + name + ".json"
+                                    },
+                                    "cqlFilter": "INCLUDE",
+                                    "maxFeatures": 100,
+                                    "numDecimals": 6,
+                                    "responseSRS": {
+                                        "string": [
+                                            4326
+                                        ]
+                                    },
+                                    "overridingServiceSRS": true,
+                                    "skipNumberMatched": true,
+                                    "circularArcPresent": true,
+                                    "linearizationTolerance": 10,
+                                    "attributes": {
+                                        "attribute": [
+                                            {
+                                                "name": "the_geom",
+                                                "minOccurs": 0,
+                                                "maxOccurs": 1,
+                                                "nillable": true,
+                                                "binding": "org.locationtech.jts.geom.Point"
+                                            },
+                                            {},
+                                            {},
+                                            {}
+                                        ]
+                                    }
+                                }).then((resp2)=>{
+                                    console.log(resp2);
+                                    res.sendStatus(resp2.status);
+
+                                }).catch(error=>{
+                                    console.error(error)
+                                    res.send(error)
+                                });
+
+                        } else {
+                            res.sendStatus(resp.status)
+                        }
                     })
                         .catch(error => {
                             console.error(error)

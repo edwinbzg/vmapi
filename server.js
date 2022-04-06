@@ -32,7 +32,7 @@ app.get('/setLayer', async (req, res) => {
                         console.log(`statusCode: ${resp.status}`)
                         if (resp.status == 201) {
                             // Create layer
-                            axios.post(`http://localhost:8080/geoserver/rest//workspaces/clients/datastores/${name}/featuretypes?recalculate=nativebbox,latlonbbox`,
+                            axios.post(`http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}/featuretypes?recalculate=nativebbox,latlonbbox`,
                                 {
                                     "name": name,
                                     "nativeName": name,
@@ -73,34 +73,7 @@ app.get('/setLayer', async (req, res) => {
                                     "enabled": true,
                                     "metadata": {
                                         "entry": [
-                                            {
-                                                "@key": "kml.regionateStrategy",
-                                                "$": "external-sorting"
-                                            },
-                                            {
-                                                "@key": "kml.regionateFeatureLimit",
-                                                "$": "15"
-                                            },
-                                            {
-                                                "@key": "cacheAgeMax",
-                                                "$": "3000"
-                                            },
-                                            {
-                                                "@key": "cachingEnabled",
-                                                "$": "true"
-                                            },
-                                            {
-                                                "@key": "kml.regionateAttribute",
-                                                "$": "NAME"
-                                            },
-                                            {
-                                                "@key": "indexingEnabled",
-                                                "$": "false"
-                                            },
-                                            {
-                                                "@key": "dirName",
-                                                "$": "DS_poi_poi"
-                                            }
+                                            
                                         ]
                                     },
                                     "store": {

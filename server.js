@@ -103,13 +103,13 @@ app.get('/setLayer', async (req, res) => {
                                         "circularArcPresent": false,
                                         "attributes": {
                                             "attribute": [
-                                                // {
-                                                //     "name": "geom",
-                                                //     "minOccurs": 0,
-                                                //     "maxOccurs": 1,
-                                                //     "nillable": true,
-                                                //     "binding": "org.locationtech.jts.geom.Polygon"
-                                                // },
+                                                {
+                                                    "name": "geom",
+                                                    "minOccurs": 0,
+                                                    "maxOccurs": 1,
+                                                    "nillable": true,
+                                       
+                                                },
                                                 // {
                                                 //     "name": "stroke",
                                                 //     "minOccurs": 0,

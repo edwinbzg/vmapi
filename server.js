@@ -30,8 +30,8 @@ app.get('/setLayer', async (req, res) => {
                         }
                     }).then(resp => {
                         console.log(`statusCode: ${resp.status}`)
-                        console.log(resp)
-                        res.json(resp)
+                        // console.log(resp)
+                        res.send(resp.status)
                     })
                         .catch(error => {
                             console.error(error)

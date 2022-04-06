@@ -8,6 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get('/setGeoJSONLayer', async (req, res) => {
     let { clientId, fileName } = req.query;
+    console.log(req.fileName)
     const name = fileName.split('.').slice(0, -1).join('.')
 
     // Download GeoJSON

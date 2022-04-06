@@ -110,55 +110,55 @@ app.get('/setLayer', async (req, res) => {
                                                     "nillable": true,
                                        
                                                 },
-                                                // {
-                                                //     "name": "stroke",
-                                                //     "minOccurs": 0,
-                                                //     "maxOccurs": 1,
-                                                //     "nillable": true,
-                                                //     "binding": "java.lang.String"
-                                                // },
-                                                // {
-                                                //     "name": "stroke-width",
-                                                //     "minOccurs": 0,
-                                                //     "maxOccurs": 1,
-                                                //     "nillable": true,
-                                                //     "binding": "java.lang.Integer"
-                                                // },
-                                                // {
-                                                //     "name": "stroke-opacity",
-                                                //     "minOccurs": 0,
-                                                //     "maxOccurs": 1,
-                                                //     "nillable": true,
-                                                //     "binding": "java.lang.Integer"
-                                                // },
-                                                // {
-                                                //     "name": "fill",
-                                                //     "minOccurs": 0,
-                                                //     "maxOccurs": 1,
-                                                //     "nillable": true,
-                                                //     "binding": "java.lang.String"
-                                                // },
-                                                // {
-                                                //     "name": "fill-opacity",
-                                                //     "minOccurs": 0,
-                                                //     "maxOccurs": 1,
-                                                //     "nillable": true,
-                                                //     "binding": "java.lang.Double"
-                                                // },
-                                                // {
-                                                //     "name": "Name",
-                                                //     "minOccurs": 0,
-                                                //     "maxOccurs": 1,
-                                                //     "nillable": true,
-                                                //     "binding": "java.lang.String"
-                                                // },
-                                                // {
-                                                //     "name": "description",
-                                                //     "minOccurs": 0,
-                                                //     "maxOccurs": 1,
-                                                //     "nillable": true,
-                                                //     "binding": "java.lang.String"
-                                                // }
+                                                {
+                                                    "name": "stroke",
+                                                    "minOccurs": 0,
+                                                    "maxOccurs": 1,
+                                                    "nillable": true,
+                                                    // "binding": "java.lang.String"
+                                                },
+                                                {
+                                                    "name": "stroke-width",
+                                                    "minOccurs": 0,
+                                                    "maxOccurs": 1,
+                                                    "nillable": true,
+                                                    // "binding": "java.lang.Integer"
+                                                },
+                                                {
+                                                    "name": "stroke-opacity",
+                                                    "minOccurs": 0,
+                                                    "maxOccurs": 1,
+                                                    "nillable": true,
+                                                    // "binding": "java.lang.Integer"
+                                                },
+                                                {
+                                                    "name": "fill",
+                                                    "minOccurs": 0,
+                                                    "maxOccurs": 1,
+                                                    "nillable": true,
+                                                    // "binding": "java.lang.String"
+                                                },
+                                                {
+                                                    "name": "fill-opacity",
+                                                    "minOccurs": 0,
+                                                    "maxOccurs": 1,
+                                                    "nillable": true,
+                                                    // "binding": "java.lang.Double"
+                                                },
+                                                {
+                                                    "name": "Name",
+                                                    "minOccurs": 0,
+                                                    "maxOccurs": 1,
+                                                    "nillable": true,
+                                                    // "binding": "java.lang.String"
+                                                },
+                                                {
+                                                    "name": "description",
+                                                    "minOccurs": 0,
+                                                    "maxOccurs": 1,
+                                                    "nillable": true,
+                                                    // "binding": "java.lang.String"
+                                                }
                                             ]
                                         }
                                     }

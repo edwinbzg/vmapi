@@ -34,112 +34,114 @@ app.get('/setLayer', async (req, res) => {
                             // Create layer
                             axios.post(`http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}/featuretypes`,
                                 {
-                                    "name": "geojson-1649194423919",
-                                    "nativeName": "geojson-1649194423919",
-                                    "namespace": {
-                                        "name": "clients",
-                                        "href": "http://localhost:8080/geoserver/rest/namespaces/clients.json"
-                                    },
-                                    "title": "geojson-1649194423919",
-                                    "keywords": {
-                                        "string": [
-                                            "features",
-                                            "geojson-1649194423919"
-                                        ]
-                                    },
-                                    "nativeCRS": "GEOGCS[\"WGS 84\", \n  DATUM[\"World Geodetic System 1984\", \n    SPHEROID[\"WGS 84\", 6378137.0, 298.257223563, AUTHORITY[\"EPSG\",\"7030\"]], \n    AUTHORITY[\"EPSG\",\"6326\"]], \n  PRIMEM[\"Greenwich\", 0.0, AUTHORITY[\"EPSG\",\"8901\"]], \n  UNIT[\"degree\", 0.017453292519943295], \n  AXIS[\"Geodetic longitude\", EAST], \n  AXIS[\"Geodetic latitude\", NORTH], \n  AUTHORITY[\"EPSG\",\"4326\"]]",
-                                    "srs": "EPSG:4326",
-                                    "nativeBoundingBox": {
-                                        "minx": -74.2652,
-                                        "maxx": -74.2414,
-                                        "miny": 4.48058,
-                                        "maxy": 4.50669,
-                                        "crs": "EPSG:4326"
-                                    },
-                                    "latLonBoundingBox": {
-                                        "minx": -74.2652,
-                                        "maxx": -74.2414,
-                                        "miny": 4.48058,
-                                        "maxy": 4.50669,
-                                        "crs": "EPSG:4326"
-                                    },
-                                    "projectionPolicy": "FORCE_DECLARED",
-                                    "enabled": true,
-                                    "store": {
-                                        "@class": "dataStore",
-                                        "name": "clients:geojson-1649194423919",
-                                        "href": "http://localhost:8080/geoserver/rest/workspaces/clients/datastores/geojson-1649194423919.json"
-                                    },
-                                    "serviceConfiguration": false,
-                                    "simpleConversionEnabled": false,
-                                    "internationalTitle": "",
-                                    "internationalAbstract": "",
-                                    "maxFeatures": 0,
-                                    "numDecimals": 0,
-                                    "padWithZeros": false,
-                                    "forcedDecimal": false,
-                                    "overridingServiceSRS": false,
-                                    "skipNumberMatched": false,
-                                    "circularArcPresent": false,
-                                    "attributes": {
-                                        "attribute": [
-                                            {
-                                                "name": "geom",
-                                                "minOccurs": 0,
-                                                "maxOccurs": 1,
-                                                "nillable": true,
-                                                "binding": "org.locationtech.jts.geom.Polygon"
-                                            },
-                                            {
-                                                "name": "stroke",
-                                                "minOccurs": 0,
-                                                "maxOccurs": 1,
-                                                "nillable": true,
-                                                "binding": "java.lang.String"
-                                            },
-                                            {
-                                                "name": "stroke-width",
-                                                "minOccurs": 0,
-                                                "maxOccurs": 1,
-                                                "nillable": true,
-                                                "binding": "java.lang.Integer"
-                                            },
-                                            {
-                                                "name": "stroke-opacity",
-                                                "minOccurs": 0,
-                                                "maxOccurs": 1,
-                                                "nillable": true,
-                                                "binding": "java.lang.Integer"
-                                            },
-                                            {
-                                                "name": "fill",
-                                                "minOccurs": 0,
-                                                "maxOccurs": 1,
-                                                "nillable": true,
-                                                "binding": "java.lang.String"
-                                            },
-                                            {
-                                                "name": "fill-opacity",
-                                                "minOccurs": 0,
-                                                "maxOccurs": 1,
-                                                "nillable": true,
-                                                "binding": "java.lang.Double"
-                                            },
-                                            {
-                                                "name": "Name",
-                                                "minOccurs": 0,
-                                                "maxOccurs": 1,
-                                                "nillable": true,
-                                                "binding": "java.lang.String"
-                                            },
-                                            {
-                                                "name": "description",
-                                                "minOccurs": 0,
-                                                "maxOccurs": 1,
-                                                "nillable": true,
-                                                "binding": "java.lang.String"
-                                            }
-                                        ]
+                                    "featureType": {
+                                        "name": "geojson-1649194423919",
+                                        "nativeName": "geojson-1649194423919",
+                                        "namespace": {
+                                            "name": "clients",
+                                            "href": "http://localhost:8080/geoserver/rest/namespaces/clients.json"
+                                        },
+                                        "title": "geojson-1649194423919",
+                                        "keywords": {
+                                            "string": [
+                                                "features",
+                                                "geojson-1649194423919"
+                                            ]
+                                        },
+                                        "nativeCRS": "GEOGCS[\"WGS 84\", \n  DATUM[\"World Geodetic System 1984\", \n    SPHEROID[\"WGS 84\", 6378137.0, 298.257223563, AUTHORITY[\"EPSG\",\"7030\"]], \n    AUTHORITY[\"EPSG\",\"6326\"]], \n  PRIMEM[\"Greenwich\", 0.0, AUTHORITY[\"EPSG\",\"8901\"]], \n  UNIT[\"degree\", 0.017453292519943295], \n  AXIS[\"Geodetic longitude\", EAST], \n  AXIS[\"Geodetic latitude\", NORTH], \n  AUTHORITY[\"EPSG\",\"4326\"]]",
+                                        "srs": "EPSG:4326",
+                                        "nativeBoundingBox": {
+                                            "minx": -74.2652,
+                                            "maxx": -74.2414,
+                                            "miny": 4.48058,
+                                            "maxy": 4.50669,
+                                            "crs": "EPSG:4326"
+                                        },
+                                        "latLonBoundingBox": {
+                                            "minx": -74.2652,
+                                            "maxx": -74.2414,
+                                            "miny": 4.48058,
+                                            "maxy": 4.50669,
+                                            "crs": "EPSG:4326"
+                                        },
+                                        "projectionPolicy": "FORCE_DECLARED",
+                                        "enabled": true,
+                                        "store": {
+                                            "@class": "dataStore",
+                                            "name": "clients:geojson-1649194423919",
+                                            "href": "http://localhost:8080/geoserver/rest/workspaces/clients/datastores/geojson-1649194423919.json"
+                                        },
+                                        "serviceConfiguration": false,
+                                        "simpleConversionEnabled": false,
+                                        "internationalTitle": "",
+                                        "internationalAbstract": "",
+                                        "maxFeatures": 0,
+                                        "numDecimals": 0,
+                                        "padWithZeros": false,
+                                        "forcedDecimal": false,
+                                        "overridingServiceSRS": false,
+                                        "skipNumberMatched": false,
+                                        "circularArcPresent": false,
+                                        "attributes": {
+                                            "attribute": [
+                                                {
+                                                    "name": "geom",
+                                                    "minOccurs": 0,
+                                                    "maxOccurs": 1,
+                                                    "nillable": true,
+                                                    "binding": "org.locationtech.jts.geom.Polygon"
+                                                },
+                                                {
+                                                    "name": "stroke",
+                                                    "minOccurs": 0,
+                                                    "maxOccurs": 1,
+                                                    "nillable": true,
+                                                    "binding": "java.lang.String"
+                                                },
+                                                {
+                                                    "name": "stroke-width",
+                                                    "minOccurs": 0,
+                                                    "maxOccurs": 1,
+                                                    "nillable": true,
+                                                    "binding": "java.lang.Integer"
+                                                },
+                                                {
+                                                    "name": "stroke-opacity",
+                                                    "minOccurs": 0,
+                                                    "maxOccurs": 1,
+                                                    "nillable": true,
+                                                    "binding": "java.lang.Integer"
+                                                },
+                                                {
+                                                    "name": "fill",
+                                                    "minOccurs": 0,
+                                                    "maxOccurs": 1,
+                                                    "nillable": true,
+                                                    "binding": "java.lang.String"
+                                                },
+                                                {
+                                                    "name": "fill-opacity",
+                                                    "minOccurs": 0,
+                                                    "maxOccurs": 1,
+                                                    "nillable": true,
+                                                    "binding": "java.lang.Double"
+                                                },
+                                                {
+                                                    "name": "Name",
+                                                    "minOccurs": 0,
+                                                    "maxOccurs": 1,
+                                                    "nillable": true,
+                                                    "binding": "java.lang.String"
+                                                },
+                                                {
+                                                    "name": "description",
+                                                    "minOccurs": 0,
+                                                    "maxOccurs": 1,
+                                                    "nillable": true,
+                                                    "binding": "java.lang.String"
+                                                }
+                                            ]
+                                        }
                                     }
                                 }).then((resp2) => {
                                     console.log(resp2);

@@ -51,7 +51,7 @@ app.get('/setLayer', async (req, res) => {
                             //     }
                             // })
                             // Create layer
-                            axios.post(`http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}/featuretypes`,
+                            axios.post(`http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}/featuretypes?recalculate=nativebbox,latlonbbox`,
                                 {
                                     "featureType": {
                                         "name": name,
@@ -162,7 +162,9 @@ app.get('/setLayer', async (req, res) => {
                                             ]
                                         }
                                     }
-                                }).then((resp2) => {
+                                }).then(async (resp2) => {
+                                    // Calculate feature layers
+                                    await axios.put(`http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}/featuretypes/${name}.json?recalculate=nativebbox,latlonbbox`)
                                     console.log(resp2);
                                     res.sendStatus(resp2.status);
 

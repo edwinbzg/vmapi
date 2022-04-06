@@ -33,7 +33,7 @@ app.get('/setLayer', async (req, res) => {
                         console.log(`statusCode: ${resp.status}`)
                         if (resp.status == 201) {
                             // Get Columns
-                            exec(`ogrinfo ${name}.gpkg -sql "SELECT json_group_array(json_object('cid', cid,'name', name,'type', type,'dflt_value', dflt_value,'pk', pk)) AS json_result FROM (SELECT * FROM pragma_table_info('${name}'))"`, (error, stdout, stderr) => {
+                            exec(`ogrinfo /usr/share/geoserver/data_dir/client_sources/${clientId}/${name}.gpkg -sql "SELECT json_group_array(json_object('cid', cid,'name', name,'type', type,'dflt_value', dflt_value,'pk', pk)) AS json_result FROM (SELECT * FROM pragma_table_info('${name}'))"`, (error, stdout, stderr) => {
                                 if (!error) {
                                     var columns = JSON.parse(stdout.split('json_result (String) = ')[1]);
                                     var attributes = [];

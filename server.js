@@ -8,6 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get('/setGeoJSONLayer', async (req, res) => {
     let { clientId, fileName } = req.query;
+    console.log(clientId)
     console.log(fileName)
     const name = fileName.split('.').slice(0, -1).join('.')
 
@@ -139,7 +140,7 @@ app.get('/setGeoJSONLayer', async (req, res) => {
                 }
             });
         } else {
-            console.log(error);
+            console.log(e);
             res.json(false)
         }
     });

@@ -52,7 +52,7 @@ app.get('/setLayer', async (req, res) => {
     //         console.error(error)
     //         res.send(error)
     //     })
-    res.send('end');
+    // res.send('end');
 })
 
 

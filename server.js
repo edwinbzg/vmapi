@@ -6,11 +6,9 @@ const port = 3000
 
 app.use(express.urlencoded({ extended: true }));
 
-
-app.get('/setLayer', async (req, res) => {
+app.get('/setGeoJSONLayer', async (req, res) => {
     let { clientId, fileName } = req.query;
     const name = fileName.split('.').slice(0, -1).join('.')
-    // columns = JSON.parse(columns);
 
     // Download GeoJSON
     exec(`mkdir -p /usr/share/geoserver/data_dir/client_sources/${clientId}/ && gsutil cp gs://geoviz/clients/${clientId}/geojson/${fileName} /usr/share/geoserver/data_dir/client_sources/${clientId}/`, (error, stdout, stderr) => {
@@ -110,39 +108,41 @@ app.get('/setLayer', async (req, res) => {
                                                 url: `http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}/featuretypes/${name}?recalculate=nativebbox,latlonbbox`,
                                                 headers: { 'Content-Type': 'application/json; charset=utf-8' },
                                                 data: feature
+                                            }).then(() => {
+                                                res.json(true);
+                                            }).catch((error) => {
+                                                console.log(error);
+                                                res.json(false);
                                             })
-                                            console.log(resp2);
-                                            res.sendStatus(resp2.status);
-
                                         }).catch(error => {
                                             console.error(error)
-                                            res.send(error)
+                                            res.json(false)
                                         });
                                 } else {
-                                    console.log('error')
-                                    res.send(stdout)
+                                    console.log(stdout)
+                                    res.json(false)
                                 }
                             })
                         } else {
-                            res.sendStatus(resp.status)
+                            console.log(resp.status)
+                            res.json(false)
                         }
                     })
                         .catch(error => {
-                            console.error(error)
-                            res.send(error)
+                            console.log(error)
+                            res.json(false)
                         })
                 } else {
-                    console.log(stderr);
-                    res.send(stderr)
+                    console.log(stdout);
+                    res.json(false)
                 }
             });
         } else {
-            console.log(stderr);
-            res.send(stderr)
+            console.log(stdout);
+            res.json(false)
         }
     })
 })
-
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

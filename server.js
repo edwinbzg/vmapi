@@ -16,7 +16,7 @@ app.get('/setLayer', async (req, res) => {
     exec(`mkdir -p /usr/share/geoserver/data_dir/client_sources/${clientId}/ && gsutil cp gs://geoviz/clients/${clientId}/geojson/${fileName} /usr/share/geoserver/data_dir/client_sources/${clientId}/`, (error, stdout, stderr) => {
         if (!error) {
             // Convert to GeoPackage
-            exec(`ogr2ogr -f GPKG /usr/share/geoserver/data_dir/client_sources/${clientId}/${name}.gpkg /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName} -lco GEOMETRY_NAME=geom -lco OVERWRITE=YES -a_srs 'EPSG:4326'`, (error, stdout, stderr) => {
+            exec(`ogr2ogr -f GPKG /usr/share/geoserver/data_dir/client_sources/${clientId}/${name}.gpkg /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName} -lco OVERWRITE=YES -a_srs 'EPSG:4326'`, (error, stdout, stderr) => {
                 if (!error) {
                     // Create datastore
                     axios.post('http://localhost:8080/geoserver/rest/workspaces/clients/datastores', {
@@ -140,34 +140,8 @@ app.get('/setLayer', async (req, res) => {
             res.send(stderr)
         }
     })
-
-
-
-    // console.log(`ogr2ogr -f GPKG ${name}.gpkg /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName} -lco GEOMETRY_NAME=geom -lco OVERWRITE=YES -a_srs 'EPSG:4326'`)
-
-    // res.send('end');
 })
 
-function getDataType(type) {
-    var resp = '';
-    switch (key) {
-        case 'INTEGER':
-            resp = "java.lang.Integer";
-            break;
-        case 'REAL':
-            resp = "java.lang.Double";
-            break;
-        case 'TEXT':
-            resp = "java.lang.String";
-            break;
-        case 'POLYGON':
-            resp = "org.locationtech.jts.geom.Polygon";
-            break;
-
-        default:
-            break;
-    }
-}
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

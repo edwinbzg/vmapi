@@ -14,12 +14,29 @@ app.get('/setLayer', async (req, res) => {
     // Download GeoJSON
     exec(`mkdir -p /usr/share/geoserver/data_dir/client_sources/${clientId}/ && gsutil cp gs://geoviz/clients/${clientId}/geojson/${fileName} /usr/share/geoserver/data_dir/client_sources/${clientId}/`, (error, stdout, stderr) => {
         if (!error) {
-            console.log(stdout);
             // Convert to GeoPackage
             exec(`ogr2ogr -f GPKG /usr/share/geoserver/data_dir/client_sources/${clientId}/${name}.gpkg /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName} -lco GEOMETRY_NAME=geom -lco OVERWRITE=YES -a_srs 'EPSG:4326'`, (error, stdout, stderr) => {
                 if (!error) {
-                    console.log(stdout);
-                    res.send('ok')
+                    // Create datastore
+                    axios.post('http://localhost:8080/geoserver/rest/workspaces/clients/datastores', {
+                        "dataStore": {
+                            "name": name,
+                            "connectionParameters": {
+                                "entry": [
+                                    { "@key": "database", "$": `file:client_sources/2/${name}.gpkg` },
+                                    { "@key": "dbtype", "$": "geopkg" }
+                                ]
+                            }
+                        }
+                    }).then(resp => {
+                        console.log(`statusCode: ${resp.status}`)
+                        console.log(resp)
+                        res.send(resp)
+                    })
+                        .catch(error => {
+                            console.error(error)
+                            res.send(error)
+                        })
                 } else {
                     console.log(stderr);
                     res.send(stderr)
@@ -34,26 +51,7 @@ app.get('/setLayer', async (req, res) => {
 
 
     // console.log(`ogr2ogr -f GPKG ${name}.gpkg /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName} -lco GEOMETRY_NAME=geom -lco OVERWRITE=YES -a_srs 'EPSG:4326'`)
-    // Create datastore
-    // axios.post('http://localhost:8080/geoserver/rest/workspaces/clients/datastores', {
-    //     "dataStore": {
-    //         "name": name,
-    //         "connectionParameters": {
-    //             "entry": [
-    //                 { "@key": "database", "$": `file:client_sources/2/${name}.gpkg` },
-    //                 { "@key": "dbtype", "$": "geopkg" }
-    //             ]
-    //         }
-    //     }
-    // }).then(resp => {
-    //         console.log(`statusCode: ${resp.status}`)
-    //         console.log(resp)
-    //         res.send(resp)
-    //     })
-    //     .catch(error => {
-    //         console.error(error)
-    //         res.send(error)
-    //     })
+
     // res.send('end');
 })
 

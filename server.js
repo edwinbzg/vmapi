@@ -10,6 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/setLayer', async (req, res) => {
     let { clientId, fileName } = req.query;
     const name = fileName.split('.').slice(0, -1).join('.')
+    // columns = JSON.parse(columns);
 
     // Download GeoJSON
     exec(`mkdir -p /usr/share/geoserver/data_dir/client_sources/${clientId}/ && gsutil cp gs://geoviz/clients/${clientId}/geojson/${fileName} /usr/share/geoserver/data_dir/client_sources/${clientId}/`, (error, stdout, stderr) => {
@@ -31,45 +32,63 @@ app.get('/setLayer', async (req, res) => {
                     }).then(resp => {
                         console.log(`statusCode: ${resp.status}`)
                         if (resp.status == 201) {
+                            // Get Geopackage info
+                            // exec(`ogrinfo ${name}.gpkg -sql "SELECT json_group_array(json_object('cid', cid,'name', name,'type', type,'dflt_value', dflt_value,'pk', pk)) AS json_result FROM (SELECT * FROM pragma_table_info('${name}'))"`, (error, stdout, stderr) => {
+                            //     if (!error) {
+                            //         var attribute = [];
+                            //         var columns = JSON.parse(stdout.split('json_result (String) = ')[1]);
+                            //         columns.forEach(item => {
+                            //             attribute.push({
+                            //                 "name": item.name,
+                            //                 "minOccurs": 0,
+                            //                 "maxOccurs": 1,
+                            //                 "nillable": true,
+                            //                 "binding": "org.locationtech.jts.geom.Polygon"
+                            //             })
+                            //         });
+                            //     } else {
+                            //         // Error
+                            //     }
+                            // })
                             // Create layer
                             axios.post(`http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}/featuretypes`,
                                 {
                                     "featureType": {
-                                        "name": "geojson-1649194423919",
-                                        "nativeName": "geojson-1649194423919",
+                                        "name": name,
+                                        "nativeName": name,
                                         "namespace": {
                                             "name": "clients",
                                             "href": "http://localhost:8080/geoserver/rest/namespaces/clients.json"
                                         },
-                                        "title": "geojson-1649194423919",
+                                        "title": name,
                                         "keywords": {
                                             "string": [
                                                 "features",
-                                                "geojson-1649194423919"
+                                                name
                                             ]
                                         },
                                         "nativeCRS": "GEOGCS[\"WGS 84\", \n  DATUM[\"World Geodetic System 1984\", \n    SPHEROID[\"WGS 84\", 6378137.0, 298.257223563, AUTHORITY[\"EPSG\",\"7030\"]], \n    AUTHORITY[\"EPSG\",\"6326\"]], \n  PRIMEM[\"Greenwich\", 0.0, AUTHORITY[\"EPSG\",\"8901\"]], \n  UNIT[\"degree\", 0.017453292519943295], \n  AXIS[\"Geodetic longitude\", EAST], \n  AXIS[\"Geodetic latitude\", NORTH], \n  AUTHORITY[\"EPSG\",\"4326\"]]",
                                         "srs": "EPSG:4326",
                                         "nativeBoundingBox": {
-                                            "minx": -74.2652,
-                                            "maxx": -74.2414,
-                                            "miny": 4.48058,
-                                            "maxy": 4.50669,
+                                            "minx": 0,
+                                            "maxx": 0,
+                                            "miny": 0,
+                                            "maxy": 0,
                                             "crs": "EPSG:4326"
                                         },
                                         "latLonBoundingBox": {
-                                            "minx": -74.2652,
-                                            "maxx": -74.2414,
-                                            "miny": 4.48058,
-                                            "maxy": 4.50669,
+                                            "minx": 0,
+                                            "maxx": 0,
+                                            "miny": 0,
+                                            "maxy": 0,
                                             "crs": "EPSG:4326"
                                         },
                                         "projectionPolicy": "FORCE_DECLARED",
                                         "enabled": true,
                                         "store": {
                                             "@class": "dataStore",
-                                            "name": "clients:geojson-1649194423919",
-                                            "href": "http://localhost:8080/geoserver/rest/workspaces/clients/datastores/geojson-1649194423919.json"
+                                            "name": `clients:${name}`,
+                                            "href": `http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}.json`
                                         },
                                         "serviceConfiguration": false,
                                         "simpleConversionEnabled": false,
@@ -84,62 +103,62 @@ app.get('/setLayer', async (req, res) => {
                                         "circularArcPresent": false,
                                         "attributes": {
                                             "attribute": [
-                                                {
-                                                    "name": "geom",
-                                                    "minOccurs": 0,
-                                                    "maxOccurs": 1,
-                                                    "nillable": true,
-                                                    "binding": "org.locationtech.jts.geom.Polygon"
-                                                },
-                                                {
-                                                    "name": "stroke",
-                                                    "minOccurs": 0,
-                                                    "maxOccurs": 1,
-                                                    "nillable": true,
-                                                    "binding": "java.lang.String"
-                                                },
-                                                {
-                                                    "name": "stroke-width",
-                                                    "minOccurs": 0,
-                                                    "maxOccurs": 1,
-                                                    "nillable": true,
-                                                    "binding": "java.lang.Integer"
-                                                },
-                                                {
-                                                    "name": "stroke-opacity",
-                                                    "minOccurs": 0,
-                                                    "maxOccurs": 1,
-                                                    "nillable": true,
-                                                    "binding": "java.lang.Integer"
-                                                },
-                                                {
-                                                    "name": "fill",
-                                                    "minOccurs": 0,
-                                                    "maxOccurs": 1,
-                                                    "nillable": true,
-                                                    "binding": "java.lang.String"
-                                                },
-                                                {
-                                                    "name": "fill-opacity",
-                                                    "minOccurs": 0,
-                                                    "maxOccurs": 1,
-                                                    "nillable": true,
-                                                    "binding": "java.lang.Double"
-                                                },
-                                                {
-                                                    "name": "Name",
-                                                    "minOccurs": 0,
-                                                    "maxOccurs": 1,
-                                                    "nillable": true,
-                                                    "binding": "java.lang.String"
-                                                },
-                                                {
-                                                    "name": "description",
-                                                    "minOccurs": 0,
-                                                    "maxOccurs": 1,
-                                                    "nillable": true,
-                                                    "binding": "java.lang.String"
-                                                }
+                                                // {
+                                                //     "name": "geom",
+                                                //     "minOccurs": 0,
+                                                //     "maxOccurs": 1,
+                                                //     "nillable": true,
+                                                //     "binding": "org.locationtech.jts.geom.Polygon"
+                                                // },
+                                                // {
+                                                //     "name": "stroke",
+                                                //     "minOccurs": 0,
+                                                //     "maxOccurs": 1,
+                                                //     "nillable": true,
+                                                //     "binding": "java.lang.String"
+                                                // },
+                                                // {
+                                                //     "name": "stroke-width",
+                                                //     "minOccurs": 0,
+                                                //     "maxOccurs": 1,
+                                                //     "nillable": true,
+                                                //     "binding": "java.lang.Integer"
+                                                // },
+                                                // {
+                                                //     "name": "stroke-opacity",
+                                                //     "minOccurs": 0,
+                                                //     "maxOccurs": 1,
+                                                //     "nillable": true,
+                                                //     "binding": "java.lang.Integer"
+                                                // },
+                                                // {
+                                                //     "name": "fill",
+                                                //     "minOccurs": 0,
+                                                //     "maxOccurs": 1,
+                                                //     "nillable": true,
+                                                //     "binding": "java.lang.String"
+                                                // },
+                                                // {
+                                                //     "name": "fill-opacity",
+                                                //     "minOccurs": 0,
+                                                //     "maxOccurs": 1,
+                                                //     "nillable": true,
+                                                //     "binding": "java.lang.Double"
+                                                // },
+                                                // {
+                                                //     "name": "Name",
+                                                //     "minOccurs": 0,
+                                                //     "maxOccurs": 1,
+                                                //     "nillable": true,
+                                                //     "binding": "java.lang.String"
+                                                // },
+                                                // {
+                                                //     "name": "description",
+                                                //     "minOccurs": 0,
+                                                //     "maxOccurs": 1,
+                                                //     "nillable": true,
+                                                //     "binding": "java.lang.String"
+                                                // }
                                             ]
                                         }
                                     }
@@ -178,7 +197,26 @@ app.get('/setLayer', async (req, res) => {
     // res.send('end');
 })
 
+function getDataType(type) {
+    var resp = '';
+    switch (key) {
+        case 'INTEGER':
+            resp = "java.lang.Integer";
+            break;
+        case 'REAL':
+            resp = "java.lang.Double";
+            break;
+        case 'TEXT':
+            resp = "java.lang.String";
+            break;
+        case 'POLYGON':
+            resp = "org.locationtech.jts.geom.Polygon";
+            break;
 
+        default:
+            break;
+    }
+}
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

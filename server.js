@@ -31,7 +31,10 @@ app.get('/setLayer', (req, res) => {
             }
         }
     }, function (error, response, body) {
-        res.json(global.response(true, 1, 'Se ha actualizado la configuración correctamente.'));
+        console.log(error);
+        console.log(response);
+        console.log(body);
+        res.json('Se ha actualizado la configuración correctamente.');
     });
 
     function execOutput(error, stdout, stderr) {

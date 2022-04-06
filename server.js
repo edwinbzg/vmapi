@@ -22,7 +22,7 @@ app.get('/setLayer', (req, res) => {
                 "name": name,
                 "connectionParameters": {
                     "entry": [
-                        { "@key": "database", "$": `file:client_sources/2/${fileName}` },
+                        { "@key": "database", "$": `file:client_sources/2/${name}.gpkg` },
                         { "@key": "dbtype", "$": "geopkg" }
                     ]
                 }

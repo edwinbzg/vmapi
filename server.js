@@ -120,7 +120,7 @@ app.get('/setLayer', async (req, res) => {
                                         });
                                 } else {
                                     console.log('error')
-                                    res.send(error)
+                                    res.send(stdout)
                                 }
                             })
                         } else {

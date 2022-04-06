@@ -14,9 +14,11 @@ app.get('/setLayer', async (req, res) => {
     // Download GeoJSON
     exec(`mkdir -p /usr/share/geoserver/data_dir/client_sources/${clientId}/ && gsutil cp gs://geoviz/clients/${clientId}/geojson/${fileName} /usr/share/geoserver/data_dir/client_sources/${clientId}/`, (error, stdout, stderr) => {
         if (!error) {
+            console.log(stdout);
             // Convert to GeoPackage
             exec(`ogr2ogr -f GPKG ${name}.gpkg /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName} -lco GEOMETRY_NAME=geom -lco OVERWRITE=YES -a_srs 'EPSG:4326'`, (error, stdout, stderr) => {
                 if (!error) {
+                    console.log(stdout);
                     res.send('ok')
                 } else {
                     console.log(stderr);

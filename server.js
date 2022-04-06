@@ -7,7 +7,7 @@ const port = 3000
 app.use(express.urlencoded({ extended: true }));
 
 
-app.get('/setLayer', (req, res) => {
+app.get('/setLayer', async (req, res) => {
     let { clientId, fileName } = req.query;
     const name = fileName.split('.').slice(0, -1).join('.')
 

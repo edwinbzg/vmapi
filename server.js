@@ -14,7 +14,7 @@ app.get('/setGeoJSONLayer', async (req, res) => {
     exec(`mkdir -p /usr/share/geoserver/data_dir/client_sources/${clientId}/ && gsutil cp gs://geoviz/clients/${clientId}/geojson/${fileName} /usr/share/geoserver/data_dir/client_sources/${clientId}/`, (error, stdout, stderr) => {
         if (!error) {
             // Edit name of geojson object
-            exec(`#!/bin/bash / cat <<< $(jq '.name = "${name}"' /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName}) > /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName}`, {shell: '/bin/bash'}, (error, stdout, stderr) => {
+            exec(`cat <<< $(jq '.name = "${name}"' /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName}) > /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName}`, {shell: '/bin/bash'}, (error, stdout, stderr) => {
                 if (!error) {
                     // Convert to GeoPackage
                     // && rm /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName}

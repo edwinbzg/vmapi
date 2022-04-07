@@ -148,7 +148,7 @@ app.get('/delGeoJSONLayer', async (req, res) => {
     let { clientId, fileName } = req.query;
     const name = fileName.split('.').slice(0, -1).join('.');
     // Delete files
-    exec(`gsutil rm gs://geoviz/clients/${clientId}/geojson/${fileName} && rm /usr/share/geoserver/data_dir/client_sources/${clientId}/${name}.gpkg`, (error, stdout, stderr) => {
+    exec(`gsutil rm gs://geoviz/clients/${clientId}/geojson/${fileName} && rm /usr/share/geoserver/data_dir/client_sources/${clientId}/${name}.gpkg`, async (error, stdout, stderr) => {
         if (!error) {
             // Delete datastore
             await axios({

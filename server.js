@@ -11,7 +11,7 @@ app.get('/setGeoJSONLayer', async (req, res) => {
     const name = fileName.split('.').slice(0, -1).join('.')
 
     // Download GeoJSON
-    exec(`mkdir -p /usr/share/geoserver/data_dir/client_sources/${clientId}/ && gsutil cp gs://geoviz/clients/${clientId}/geojson/${fileName} /usr/share/geoserver/data_dir/client_sources/${clientId}/ && cat <<< $(jq '.name = "${name}"' ${fileName}) > ${fileName}`, (error, stdout, stderr) => {
+    exec(`mkdir -p /usr/share/geoserver/data_dir/client_sources/${clientId}/ && gsutil cp gs://geoviz/clients/${clientId}/geojson/${fileName} /usr/share/geoserver/data_dir/client_sources/${clientId}/ && cat <<< $(jq '.name = "${name}"' /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName}) > /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName}`, (error, stdout, stderr) => {
         if (!error) {
             // Convert to GeoPackage
             exec(`ogr2ogr -f GPKG /usr/share/geoserver/data_dir/client_sources/${clientId}/${name}.gpkg /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName} -lco GEOMETRY_NAME=geom -lco OVERWRITE=YES -a_srs 'EPSG:4326' && rm /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName}`, (error, stdout, stderr) => {

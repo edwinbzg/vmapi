@@ -8,8 +8,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get('/setGeoJSONLayer', async (req, res) => {
     let { clientId, fileName } = req.query;
-    console.log(clientId)
-    console.log(fileName)
     const name = fileName.split('.').slice(0, -1).join('.')
 
     // Download GeoJSON
@@ -144,7 +142,31 @@ app.get('/setGeoJSONLayer', async (req, res) => {
             res.json(false)
         }
     });
-})
+});
+
+app.get('/delGeoJSONLayer', async (req, res) => {
+    let { clientId, fileName } = req.query;
+    const name = fileName.split('.').slice(0, -1).join('.');
+    // Delete files
+    exec(`gsutil rm gs://geoviz/clients/${clientId}/geojson/${fileName} && rm /usr/share/geoserver/data_dir/client_sources/${clientId}/${name}.gpkg`, (error, stdout, stderr) => {
+        if (!error) {
+            // Delete datastore
+            await axios({
+                method: 'DELETE',
+                url: `http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}`,
+                headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            }).then(() => {
+                res.json(true);
+            }).catch((error) => {
+                console.log(error);
+                res.json(false);
+            })
+        } else {
+            console.log(error);
+            res.json(false)
+        }
+    });
+});
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

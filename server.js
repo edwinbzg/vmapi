@@ -17,7 +17,8 @@ app.get('/setGeoJSONLayer', async (req, res) => {
             exec(`#!/bin/bash / cat <<< $(jq '.name = "${name}"' /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName}) > /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName}`, {shell: '/bin/bash'}, (error, stdout, stderr) => {
                 if (!error) {
                     // Convert to GeoPackage
-                    exec(`ogr2ogr -f GPKG /usr/share/geoserver/data_dir/client_sources/${clientId}/${name}.gpkg /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName} -lco GEOMETRY_NAME=geom -lco OVERWRITE=YES -a_srs 'EPSG:4326' && rm /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName}`, (error, stdout, stderr) => {
+                    // && rm /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName}
+                    exec(`ogr2ogr -f GPKG /usr/share/geoserver/data_dir/client_sources/${clientId}/${name}.gpkg /usr/share/geoserver/data_dir/client_sources/${clientId}/${fileName} -lco GEOMETRY_NAME=geom -lco OVERWRITE=YES -a_srs 'EPSG:4326' `, (error, stdout, stderr) => {
                         if (!error) {
                             // Create datastore
                             axios.post('http://localhost:8080/geoserver/rest/workspaces/clients/datastores', {

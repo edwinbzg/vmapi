@@ -153,7 +153,7 @@ app.get('/delGeoJSONLayer', async (req, res) => {
             // Delete datastore
             await axios({
                 method: 'DELETE',
-                url: `http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}`,
+                url: `http://localhost:8080/geoserver/rest/workspaces/clients/datastores/${name}?recurse=true`,
                 headers: { 'Content-Type': 'application/json; charset=utf-8' },
             }).then(() => {
                 res.json(true);

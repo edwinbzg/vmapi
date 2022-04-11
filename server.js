@@ -177,7 +177,7 @@ app.get('/delGeoJSONLayer', async (req, res) => {
     });
 });
 
-app.get('setGeoPackageLayer', async (req, res) => {
+app.get('/setGeoPackageLayer', async (req, res) => {
     let { clientId, fileName, table } = req.query;
     const name = fileName.split('.').slice(0, -1).join('.')
 

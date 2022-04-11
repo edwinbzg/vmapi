@@ -217,7 +217,7 @@ app.get('/setGeoPackageLayer', async (req, res) => {
                             var feature = {
                                 "featureType": {
                                     "name": name,
-                                    "nativeName": name,
+                                    "nativeName": table,
                                     "namespace": {
                                         "name": "clients",
                                         "href": "http://localhost:8080/geoserver/rest/namespaces/clients.json"
